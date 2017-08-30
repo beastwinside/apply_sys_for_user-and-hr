@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>供应商信息</title>
+<script src="./bull/script/boot.js" type="text/javascript"></script>
+<script src="./bull/script/miniui/pagertree.js" type="text/javascript"></script>
+<script src="./bull/script/json2.js"></script> 
+<script src="./bull/script/toolkit.js"></script> 
+<SCRIPT LANGUAGE="JavaScript">
+var grid = null;
+var form = null;
+var messageid = null;
+var p_url = "BullInitServletListener?classname=m_baseinfo.trainlist_user.TrainlistCtl&method=";
+$(function(){
+	mini.parse();
+	form = new mini.Form("#submitForm");
+	//grid.hideColumn("ID");
+	//绑定右键菜单
+	 $("body").bind("contextmenu", function (e) {
+		var menu = mini.get("contextMenu");
+		menu.showAtPos(e.pageX, e.pageY);
+		return false;
+	});
+});
+function bt_save(){
+	if(!form.validate()) return ;
+	var data = form.getData(true); 
+	var json = mini.encode(data);
+	//data = JsonArrayToL(data);//转为小字
+	//alert(JSON.stringify(json));
+	messageid = mini.loading("加载中,请稍等 ...", "加载中");
+	$.ajax({
+		url: p_url+"save",type: "post",
+		data:{data:"["+json+"]"},
+			success: function (text) {
+				eval(text);
+				mini.hideMessageBox(messageid);
+			}
+	});
+}
+function bt_close(action) {            
+	if (action == "close" && form.isChanged()) {
+		if (confirm("数据被修改了，是否先保存？")) {
+			return false;
+		}
+	}
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();            
+}
+ function onCloseClick(e) {
+	var obj = e.sender;
+	obj.setText("");
+	obj.setValue("");
+}
+
+function keyup_sales(){
+	var obj = mini.get("sales");
+	var url = "BullInitServletListener?classname=m_hr.employee.EmployeeCtl&method=search&jobname="+obj.getText();
+	url = encodeURI(encodeURI(url));
+	obj.load(url);
+}
+ function onChineseValidation(e) {
+	if (e.isValid) {
+		if (isChinese(e.value) == true) {
+			e.errorText = "不能输入中文";
+			e.isValid = false;
+		}
+	}
+}
+ /* 是否汉字 */
+function isChinese(v) {
+	var re = new RegExp("^[\u4e00-\u9fa5]+$");
+	if (re.test(v)) return true;
+	return false;
+}
+</script>
+</head>
+<body style="padding:2px">
+<form name="submitForm" id="submitForm" method="post" action="BullInitServletListener">
+<input name="id" id="id" class="mini-hidden" value="">
+<!---右键菜单--->
+<ul id="contextMenu" class="mini-contextmenu" >
+		<li iconCls="icon-add" onclick="bt_save">保存</li>
+		<li iconCls="icon-remove" onclick="bt_close">关闭</li>
+</ul>
+ <fieldset style="border:solid 1px #aaa;padding:3px;">
+            <legend >报名项目信息</legend>
+		<div style="margin-right: auto; margin-left: auto;">
+	    	<table style="margin-right: auto; margin-left: auto;">
+	    		<tr>
+	    			<td>项目名称：</td>
+	    			<td><input class="mini-textbox" id="pro_name" name="pro_name" vtype="maxLength:32" required="true"style="width:220px"value=""/></td>
+					<td>开始时间：</td>
+					<td><input class="mini-datepicker" id="begin_time" name="begin_time" vtype="maxLength:64" required="true"style="width:220px" value=""  />
+				</tr>
+				<tr>
+					<td>结束时间：</td>
+					<td><input id="end_time" name="end_time" vtype="maxLength:32" style="width:220px" class="mini-datepicker"   />
+					</td>
+					<td>参加最大人数：</td>
+					<td>
+					<input id="people_num" name="people_num" vtype="maxLength:16" style="width:220px" class="mini-textbox" />
+					</td>
+			</tr>
+			<tr>
+					<td>项目细节：</td>
+					<td><input id="pro_detail" name="pro_detail"vtype="maxLength:16"  style="width:220px" class="mini-textbox" />
+						<td>项目地址：</td>
+						<td><input id="pro_address" name="pro_address"vtype="maxLength:16"  style="width:220px" class="mini-textbox" />
+					</td>
+				
+					
+			</tr>
+				
+						<td>培训项目状态：</td>
+					<td>
+					<input id="status" name="status" vtype="maxLength:16" style="width:220px" class="mini-textbox" />
+					</td>
+			
+			
+			
+			
+			
+				
+	    	</table>
+<div style="text-align:center;padding:10px;">               
+	<a class="mini-button" iconCls="icon-add" onclick="bt_save()">保存</a>
+	<a class="mini-button" iconCls="icon-no" onclick="bt_close()">取消</a>
+</div>    
+	</div>
+</fieldset>
+</form>
+</body>
+</html>

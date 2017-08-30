@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>供应商信息</title>
+<script src="./bull/script/boot.js" type="text/javascript"></script>
+<script src="./bull/script/miniui/pagertree.js" type="text/javascript"></script>
+<script src="./bull/script/json2.js"></script> 
+<SCRIPT LANGUAGE="JavaScript">
+var grid = null;
+var form = null;
+var p_url = "BullInitServletListener?classname=m_baseinfo.trainassess.TrainassessCtl&method=";
+$(function(){
+	mini.parse();
+	form = new mini.Form("#submitForm");
+	grid = mini.get("datagrid1");
+	grid.setUrl(p_url+"search");
+	grid.on("rowdblclick",bt_edit);
+	//绑定右键菜单
+	 $("body").bind("contextmenu", function (e) {
+		var menu = mini.get("contextMenu");
+		menu.showAtPos(e.pageX, e.pageY);
+		return false;
+	});
+	bt_search();
+});
+function bt_search(){
+	$("#method").val("search");
+	form = new mini.Form("#submitForm");
+	var data = form.getData();
+	//alert(JSON.stringify(encodeURI(encodeURI(data))));
+	grid.load(data);
+}
+function bt_edit(e){
+var record = e.record;
+ mini.open({
+			url: p_url+"showPage&pagetype=edit&id="+record.ID,showMaxButton:true,
+			title: "修改报名人员信息", width: "70%", height: "55%",
+			onload: function () {
+				var iframe = this.getIFrameEl();
+				var data = { action: "edit"};
+			},
+			ondestroy: function (action) {
+				grid.load(form.getData());
+			}
+		});}
+function bt_add(){
+ mini.open({
+			url: p_url+"showPage&pagetype=add",showMaxButton:true,
+			title: "新增报名人员信息", width: "70%", height: "55%",
+			onload: function () {
+				var iframe = this.getIFrameEl();
+				var data = { action: "new"};
+			},
+			ondestroy: function (action) {            
+				grid.load(form.getData());
+			}
+		});
+}
+function bt_del(){
+	var rows = grid.getSelecteds();
+	if (rows.length > 0) {
+		mini.confirm("确定作废记录？", "确定？",
+            function (action) {
+                if (action == "ok") {
+                   var ids = [];
+					for (var i = 0, l = rows.length; i < l; i++) {
+						var r = rows[i];
+						ids.push(r.ID);
+					}
+					var id = ids.join(',');
+					grid.loading("操作中，请稍后......");
+					$.ajax({
+						url:p_url+"delete&ids="+id,
+						success: function (text) {
+							grid.reload();
+						},
+						error: function () {
+						}
+					});
+                } 
+            }
+        );
+	} else {
+		mini.alert('请选中一条记录!','提示');
+	}
+}
+function keyup_sales(){
+	var obj = mini.get("sales");
+	var url = "BullInitServletListener?classname=m_hr.employee.EmployeeCtl&method=search&jobname="+obj.getText();
+	url = encodeURI(encodeURI(url));
+	obj.load(url);
+}
+</script>
+</head>
+<body style="padding:2px">
+<form name="submitForm" id="submitForm" method="post" action="BullInitServletListener">
+<!---右键菜单--->
+<ul id="contextMenu" class="mini-contextmenu" >
+		<li iconCls="icon-search" onclick="bt_search">查询</li>
+		<li iconCls="icon-add" onclick="bt_add">新增</li>
+		<li iconCls="icon-remove" onclick="bt_del">作废</li>
+</ul>
+<div id="panel1" class="mini-panel" title="查询条件" style="width:99%;margin-right: auto; margin-left: auto;margin-bottom:5px" showCollapseButton="true" collapseOnTitleClick="true">
+		<div style="padding:10px 60px 0px 30px;margin-right: auto; margin-left: auto;">
+	    	<table>
+	    		<tr>
+	    			<td>报名人名称：</td>
+	    			<td><input class="mini-textbox" id="trianname" name="trainname" style="width:120px"/></td>
+					<td>报名人id：</td>
+					<td><input class="mini-textbox" id="trainid" name="trainid"style="width:120px" value=""/></td>
+					
+				
+					<td>
+					&nbsp;&nbsp;<a class="mini-button" iconCls="icon-search" onclick="bt_search()">查询</a>
+					&nbsp;&nbsp;<a class="mini-button" iconCls="icon-add" onclick="bt_add()">新增</a>
+					&nbsp;&nbsp;<a class="mini-button" iconCls="icon-no" onclick="bt_del()">作废</a>
+					</td>
+			</tr>
+	    	</table>
+	</div>
+</div>
+<div id="datagrid1" class="mini-datagrid" style="width:99%;height:420px;margin-right: auto; margin-left: auto;" allowResize="true" sizeList="[15,30,50,100]" pageSize="15"  allowAlternating="true"idField="id" multiSelect="true"  showSummaryRow="true">
+	<div property="columns">
+		 <div field="ID" name="ID" type="checkcolumn" headerAlign="center" width="100" ></div>
+		 <div field="TRAIN_NAME" headerAlign="center" width="100" >报名人名称</div>
+		 <div field="TRAIN_ID" headerAlign="center"  width="200">报名人id</div>
+		 <div field="TRAIN_ADV" headerAlign="center"  width="100">评价信息多行</div>
+		 <div field="TRAIN_ADJ" headerAlign="center"  width="100">建议信息多行</div>
+
+		
+	</div>
+</div>
+</body>
+</html>
