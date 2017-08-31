@@ -17,29 +17,7 @@ import weaver.bull.toolkit.VidCol;
 
 
 public class TrainapplyCtl{
-	public static void showPage(HttpServletRequest req,
-			HttpServletResponse res, HashMap map) throws IOException,
-			ServletException {
-		try {
-			String page ="";
-			IPF ipf = new IPF(req, res);
-			TrainapplyDB  db = new TrainapplyDB();
-			UserVO user = ipf.getUser();
-			String pagetype = ipf.getParameterNull("pagetype");
-			if(pagetype.equals("list")) 
-				page = SysConstants.TEMP_PATH+"m_baseinfo/trainapply/list.html";
-			else if(pagetype.equals("add")) 
-				page = SysConstants.TEMP_PATH+"m_baseinfo/trainapply/add.html";
-			else if(pagetype.equals("edit")) {
-				page = SysConstants.TEMP_PATH+"m_baseinfo/trainapply/edit.html";
-				String id = ipf.getParameterNull("id");
-				ipf.addObject("formdata", db.getVO(id));
-			}
-			ipf.showPage(page);
-		} catch (Exception e) {
-			 	e.printStackTrace();
-		}
-		}
+	
 	
 		
 		public static void getTrainapply(HttpServletRequest req,
@@ -71,13 +49,18 @@ public class TrainapplyCtl{
 				String oahr = empDB.getOAHrInfo(user.getPersonid());
 				JSONObject oahrobj=JSONObject.fromObject(oahr);
 				String username = oahrobj.getString("LASTNAME");
-				String bstr="alert('改成员"+username+"已报名');";
+				String bstr="alert('您未报名该项目');";
+			
+				String wstr="and train_id='"+jo.getString("train_id")+"'and train_name='"+jo.getString("train_name")+"'";
 				
-					if(VidCol.getVid("uf_train_apply", "train_id",jo.getString("train_id"))&&VidCol.getVid("uf_train_apply", "train_name",username))
-					{ipf.print(bstr);return;}
-					else
-				{db.save(jo);
-				ipf.print("alert('保存成功！');bt_close()");}
+				if(!VidCol.getVid("uf_train_apply", "user_id",jo.getString("user_id"),wstr))
+				{
+					db.insert(jo);	ipf.print("alert('新增报名成功！');bt_close()");
+				}
+				else {
+					db.update(jo);	ipf.print("alert('修改报名信息成功！');bt_close()");
+				}
+		
 			} catch (Exception e) {
 				 	e.printStackTrace();
 			}
@@ -103,19 +86,7 @@ public class TrainapplyCtl{
 		}
 	
 	
-		public static void delete(HttpServletRequest req,
-				HttpServletResponse res, HashMap map) throws IOException,
-				ServletException {
-			try {
-				IPF ipf = new IPF(req, res);
-				String ids = ipf.getParameterNull("ids");
-				TrainapplyDB db = new TrainapplyDB();
-				db.delete(ids);
-			} catch (Exception e) {
-			 	e.printStackTrace();
-		}
-		}
-	
+		
 	
 	
 }

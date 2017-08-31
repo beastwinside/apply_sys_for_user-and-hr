@@ -48,15 +48,17 @@ $(function(){
 				if(record.STATUS=="可评测")
 				{	e.cellHtml ='<img src="./bull/images/btn/assess.png" onclick=bt_pinggu('+record.ID+') />';}
 			}
-			if (column.name == "GSSYB") {
+			if (column.name == "STATUS") {
 				e.cellStyle = "text-align:center";
+				if(record.STATUS=="只显示不提供操作")
+				{	e.cellHtml ='<img src="./bull/images/btn/readonly.png" />';}
 			
 			}
 			if (column.name == "BM") {
 				e.cellStyle = "text-align:center";
 				e.cellHtml = '<img src="./bull/images/btn/dz.png" onclick="bt_fp(\'' + record.ID + '\',\'bm\')"/>';
 			}
-			else e.cellStyle = "text-align:center";
+			else e.cellStyle = "text-align:center;";
 		});
 	bt_search();	
 });
@@ -101,77 +103,16 @@ function bt_pinggu(e){
 			}
 		});}
 		
-function bt_add(){
- mini.open({
-			url: p_url+"showPage&pagetype=add",showMaxButton:true,
-			title: "新增报名项目信息", width: "70%", height: "55%",
-			onload: function () {
-				var iframe = this.getIFrameEl();
-				var data = { action: "new"};
-			},
-			ondestroy: function (action) {            
-				grid.load(form.getData(true));
-			}
-		});
-}
-function bt_assess(){
-	 mini.open({
-				url: p_url+"showPage&pagetype=add",showMaxButton:true,
-				title: "新增报名项目信息", width: "70%", height: "55%",
-				onload: function () {
-					var iframe = this.getIFrameEl();
-					var data = { action: "new"};
-				},
-				ondestroy: function (action) {            
-					grid.load(form.getData(true));
-				}
-			});
-	}
-function bt_del(){
-	var rows = grid.getSelecteds();
-	if (rows.length > 0) {
-		mini.confirm("确定作废记录？", "确定？",
-            function (action) {
-                if (action == "ok") {
-                   var ids = [];
-					for (var i = 0, l = rows.length; i < l; i++) {
-						var r = rows[i];
-						ids.push(r.ID);
-					}
-					var id = ids.join(',');
-					grid.loading("操作中，请稍后......");
-					$.ajax({
-						url:p_url+"delete&ids="+id,
-						success: function (text) {
-							grid.reload();
-						},
-						error: function () {
-						}
-					});
-                } 
-            }
-        );
-	} else {
-		mini.alert('请选中一条记录!','提示');
-	}
-}
-function keyup_sales(){
-	var obj = mini.get("sales");
-	var url = "BullInitServletListener?classname=m_hr.employee.EmployeeCtl&method=search&jobname="+obj.getText();
-	url = encodeURI(encodeURI(url));
-	obj.load(url);
-}
+
+
+
 </script>
 </head>
 <body style="padding:2px">
+<div style="text-indent:15px;font-size:15px;font-weight:bolder;">培训项目参加者报名系统</div>
 <form name="submitForm" id="submitForm" method="post" action="BullInitServletListener">
-<!---右键菜单--->
-<ul id="contextMenu" class="mini-contextmenu" >
-		<li iconCls="icon-search" onclick="bt_search">查询</li>
-		<li iconCls="icon-add" onclick="bt_add">新增</li>
 
-	
-</ul>
+
 <div id="panel1" class="mini-panel" title="查询条件" style="width:99%;margin-right: auto; margin-left: auto;margin-bottom:5px" showCollapseButton="true" collapseOnTitleClick="true">
 		<div style="padding:10px 60px 0px 30px;margin-right: auto; margin-left: auto;">
 	    	<table>
@@ -184,9 +125,7 @@ function keyup_sales(){
 				
 					<td>
 					&nbsp;&nbsp;<a class="mini-button" iconCls="icon-search" onclick="bt_search()" id="but_search">查询</a>
-					&nbsp;&nbsp;<a class="mini-button" iconCls="icon-add" onclick="bt_add()">报名（新增）</a>
-			
-						&nbsp;&nbsp;<a class="mini-button" iconCls="icon-add" onclick="bt_assess()">评价</a>
+		
 							</td>
 					</tr>
 	    	</table>
@@ -195,7 +134,7 @@ function keyup_sales(){
 
 <div id="datagrid1" class="mini-datagrid" style="width:99%;height:450px;margin-right: auto; margin-left: auto;" allowResize="true" sizeList="[15,30,50,100]" pageSize="15"  allowAlternating="true"idField="id" multiSelect="true"  showSummaryRow="true">
 	<div property="columns">
-		 <div field="ID" name="ID"  type="checkcolumn" headerAlign="center" width="0"    ></div>
+		 <div field="ID" name="ID"  type="checkcolumn" headerAlign="center" width="0"   ></div>
 		 <div field="PRO_NAME" headerAlign="center" width="50" name=PRO_NAME"" >参训项目名称</div>
 		 <div field="BEGIN_TIME" headerAlign="center"  width="50" name="BEGIN_TIME"  dateformat="yyyy-MM-dd">项目开始时间</div>
 		 <div field="END_TIME" headerAlign="center"  width="50" name="END_TIME"  dateformat="yyyy-MM-dd">项目结束时间</div>

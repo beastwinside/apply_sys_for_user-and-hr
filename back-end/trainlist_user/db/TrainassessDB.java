@@ -14,7 +14,7 @@ public class TrainassessDB{
 	private static DBConnectionBaseEnc conn = new DBConnectionBaseEnc();
 	private static String INSERT_SQL[] = {"id=idkey","pro_name","train_adj","train_adv"
 		};
-private static String WHERE_SQL[] = {"train_id"};
+private static String WHERE_SQL[] = {"train_id","user_id"};
 private static String UDPATE_SQL[] = {"pro_name","train_adj","train_adv"
 		};
 

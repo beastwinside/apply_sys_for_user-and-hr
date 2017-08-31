@@ -24,7 +24,8 @@ private static String UDPATE_SQL[] = {"pro_name","begin_time=to_date('$begin_tim
 
 public String getList(TrainlistVO para,UserVO user) throws Exception{
 	String sql = " select id,pro_name,begin_time,end_time,people_num,pro_detail,pro_address,status"+
-				 " from uf_train_list where status='可报名'or status='可评测' ";
+				 " from uf_train_list where status='可报名'or status='可评测' or status='只显示不提供操作' ";
+	
 	String [][] vals = {
 			{para.getProname(),"pro_name like'%#%'"},
 			{para.getProaddress(),"pro_address like'%#%'"}
@@ -52,12 +53,17 @@ public String getVO(String id) throws Exception{
 	return json;
 }
 
-public String getAssess(String id,String username) throws Exception{
-	String sql = " select train_adv,train_adj from uf_train_apply where train_name='"+username+"' and train_id="+id+"";
+public String getAssess(String id,String username,String userid) throws Exception{
+	String sql = " select train_adv,train_adj from uf_train_apply where train_name='"+username+"' and train_id='"+id+"'and user_id='"+userid+"'";
 	String json = conn.getVOByJSON(sql);
 	return json;
 }
 
+public String getApply(String id,String username,String userid) throws Exception{
+	String sql = " select train_phone,train_date from uf_train_apply where train_name='"+username+"' and train_id='"+id+"'and user_id='"+userid+"'";
+	String json = conn.getVOByJSON(sql);
+	return json;
+}
 
 
 public void save(JSONObject jo) throws SQLException{

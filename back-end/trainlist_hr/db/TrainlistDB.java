@@ -24,7 +24,7 @@ private static String UDPATE_SQL[] = {"pro_name","begin_time=to_date('$begin_tim
 
 public String getList(TrainlistVO para,UserVO user) throws Exception{
 	String sql = " select id,pro_name,begin_time,end_time,people_num,pro_detail,pro_address,status"+
-				 " from uf_train_list where status='可报名'or status='可评测' ";
+				 " from uf_train_list where status!='已删除' ";
 	String [][] vals = {
 			{para.getProname(),"pro_name like'%#%'"},
 			{para.getProaddress(),"pro_address like'%#%'"}
@@ -66,8 +66,10 @@ public void save(JSONObject jo) throws SQLException{
 	else
 		conn.updateDB(JSON.JsonToUpdate(jo, "uf_train_list",WHERE_SQL,UDPATE_SQL));
 }
+
+
 public void delete(String ids) throws SQLException{
-conn.updateDB("update uf_train_apply set status='1' where id in("+ids+")");
+conn.updateDB("update uf_train_list set status='已删除' where id in("+ids+")");
 }
 
 	

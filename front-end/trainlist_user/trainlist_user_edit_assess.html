@@ -30,25 +30,24 @@
 var grid = null;
 var form = null;
 var messageid = null;
-var p_url = "BullInitServletListener?classname=m_baseinfo.trainlist_user.TrainapplyCtl&method=";
+var p_url = "BullInitServletListener?classname=m_baseinfo.trainlist_user.TrainassessCtl&method=";
 $(function(){
 	mini.parse();
 	form = new mini.Form("#submitForm");
 	var formdata = JsonToL(($formdata$));
 	var oahr = JsonToL(($oahr$));
+	var assess = JsonToL(($assess$));
 	//alert(JSON.stringify(formdata));
 	form.setData(formdata, false);
+	mini.get("train_adv").setValue(assess.train_adv);
+	mini.get("train_adj").setValue(assess.train_adj);
 	mini.get("train_id").setValue(formdata.id);
-	
-	mini.get("train_name").setValue(oahr.lastname);
-	mini.get("train_depart").setValue(oahr.departmentname);
-	mini.get("train_company").setValue(oahr.subcompanyname);
-
-
-
-
 	mini.get("sales").setValue(formdata.salesid);
 	mini.get("sales").setText(formdata.sales);
+
+
+
+	
 	//绑定右键菜单
 	 $("body").bind("contextmenu", function (e) {
 		var menu = mini.get("contextMenu");
@@ -58,7 +57,7 @@ $(function(){
 });
 function bt_save(){
 	if(!form.validate()) return ;
-	var data = form.getData(true); 
+	var data = form.getData(); 
 	var json = mini.encode(data);
 	//data = JsonArrayToL(data);//转为小字
 	//alert(JSON.stringify(json));
@@ -67,6 +66,7 @@ function bt_save(){
 		url: p_url+"save",type: "post",
 		data:{data:"["+json+"]"},
 			success: function (text) {
+			
 				eval(text);
 				mini.hideMessageBox(messageid);
 			}
@@ -96,49 +96,33 @@ function keyup_sales(){
 </head>
 <body style="padding:2px">
 <form name="submitForm" id="submitForm" method="post" action="BullInitServletListener">
-
-
-<input name="id" id="id" class="mini-hidden value="">
+<input name="id" id="id" class="mini-hidden" value="" >
 <!---右键菜单--->
 <ul id="contextMenu" class="mini-contextmenu" >
 		<li iconCls="icon-add" onclick="bt_save">保存</li>
 		<li iconCls="icon-remove" onclick="bt_close">关闭</li>
 </ul>
  <fieldset style="border:solid 1px #aaa;padding:3px;">
-            <legend >报名人信息</legend>
+            <legend >评估信息</legend>
 		<div style="margin-right: auto; margin-left: auto;">
-	    	<table style="margin-right: auto; margin-left: auto;">
+	    	 	<table style="margin-right: auto; margin-left: auto;">
+	    	
+	    	 	<input id="train_id" name="train_id" vtype="maxLength:16"  style="width:220px"  class="mini-hidden"   />
 	    		<tr>
-	    			<td>参训人员姓名：</td>
-	    			<td><input class="mini-textbox asLabel" id="train_name" name="train_name" vtype="maxLength:32" required="true"style="width:220px"value=""/></td>
-					<td>参训人员所属部门：</td>
-					<td><input class="mini-textbox asLabel"  id="train_depart" readonly name="train_depart" vtype="maxLength:64" required="true"style="width:220px" value=""/>
+	    			
+					<td>项目名称：</td>
+					<td><input class="mini-textbox "  readonly id="pro_name" name="pro_name" vtype="maxLength:64" style="width:220px" value="" readonly/>
 				</tr>
 				<tr>
-					<td>参训人员所属公司：</td>
-					<td><input class="mini-textbox asLabel" id="train_company"name="train_company" readonly vtype="maxLength:32" style="width:220px"  />
+					<td>项目评估文本：</td>
+					<td><input id="train_adj" name="train_adj" vtype="maxLength:32" style="width:220px;" required="true" class="mini-textbox aslabel" />
 					</td>
-					<td>申请日期：</td>
+					<td>项目建议文本：</td>
 					<td>
-					<input id="train_date" name="train_date" vtype="maxLength:16" style="width:220px" class="mini-datepicker" required />
+					<input id="train_adv" name="train_adv" vtype="maxLength:16" style="width:220px;" required="true" class="mini-textbox" />
 					</td>
-			</tr>
-			<tr>
-					<td>联系方式电话：</td>
-					<td><input id="train_phone" name="train_phone"vtype="maxLength:16"  style="width:220px" class="mini-textbox" required />
-					</td>
-					
-						<td>项目名称：</td>
-					<td><input id="pro_name" name="pro_name"vtype="maxLength:16"  style="width:220px" class="mini-textbox asLabel" />
-					</td>
-					
-					
-					
-					
-				<input id="train_id" name="train_id" vtype="maxLength:16"  style="width:220px" class="mini-hidden"  />
 			</tr>
 				
-			
 	    	</table>
 <div style="text-align:center;padding:10px;">               
 	<a class="mini-button" iconCls="icon-add" onclick="bt_save()">保存</a>

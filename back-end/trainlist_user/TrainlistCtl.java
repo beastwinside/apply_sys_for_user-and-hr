@@ -27,19 +27,25 @@ public class TrainlistCtl{
 			UserVO user = ipf.getUser();
 			String pagetype = ipf.getParameterNull("pagetype");
 			if(pagetype.equals("list")) 
-				page = SysConstants.TEMP_PATH+"m_baseinfo/trainlist_user/list.html";
+				page = SysConstants.TEMP_PATH+"m_baseinfo/trainlist_user/trainlist_user_list.html";
 			else if(pagetype.equals("add")) 
-				page = SysConstants.TEMP_PATH+"m_baseinfo/trainlist_user/add.html";
+				page = SysConstants.TEMP_PATH+"m_baseinfo/trainlist_user/trainlist_user_add.html";
 			else if(pagetype.equals("apply")) {
-				page = SysConstants.TEMP_PATH+"m_baseinfo/trainlist_user/edit.html";
+				page = SysConstants.TEMP_PATH+"m_baseinfo/trainlist_user/trainlist_user_edit_apply.html";
 				EmployeeDB empDB = new EmployeeDB();
+				TrainlistDB applydb=new TrainlistDB();
 				String oahr = empDB.getOAHrInfo(user.getPersonid());
+				JSONObject oahrobj=JSONObject.fromObject(oahr);
+				String username = oahrobj.getString("LASTNAME");
 				String id = ipf.getParameterNull("id");
+				String applyinfo=applydb.getApply(id,username,user.getPersonid());
 				ipf.addObject("formdata", db.getVO(id));
 				ipf.addObject("oahr", oahr);
+				
+				ipf.addObject("apply", applyinfo);
 			}
 			else if(pagetype.equals("assess")) {
-				page = SysConstants.TEMP_PATH+"m_baseinfo/trainlist_user/edit_assess.html";
+				page = SysConstants.TEMP_PATH+"m_baseinfo/trainlist_user/trainlist_user_edit_assess.html";
 				EmployeeDB empDB = new EmployeeDB();
 				TrainlistDB assessdb=new TrainlistDB();
 				String oahr = empDB.getOAHrInfo(user.getPersonid());
@@ -47,7 +53,7 @@ public class TrainlistCtl{
 				String username = oahrobj.getString("LASTNAME");
 				
 				String id = ipf.getParameterNull("id");
-				String assessinfo=assessdb.getAssess(id,username);
+				String assessinfo=assessdb.getAssess(id,username,user.getPersonid());
 				ipf.addObject("formdata", db.getVO(id));
 				ipf.addObject("oahr", oahr);
 				ipf.addObject("assess", assessinfo);
@@ -82,7 +88,8 @@ public class TrainlistCtl{
 				String jdata = ipf.getParameterNull("data");
 				jdata = jdata.substring(jdata.indexOf("[")+1,jdata.lastIndexOf("]"));
 				JSONObject jo = JSONObject.fromObject(jdata);
-	
+				UserVO user = ipf.getUser();
+				jo.put("user_id",user.getPersonid());
 				if(StringUtil.isNullOrEmpty(jo.getString("id"))){
 					if(VidCol.getVid("uf_train_list", "pro_name",jo.getString("pro_name"))){
 						ipf.print("alert('改成员已存在');");

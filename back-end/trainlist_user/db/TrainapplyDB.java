@@ -18,10 +18,8 @@ public class TrainapplyDB{
 	private static String INSERT_SQL[] = {"id=idkey","train_name","train_depart","train_company","train_date=to_date('$train_date$','yyyy-mm-dd')","train_phone",
 			"train_id","pro_name","user_id"
 		};
-private static String WHERE_SQL[] = {"id"};
-private static String UDPATE_SQL[] = {"train_name","train_depart","train_company","train_date=to_date('$train_date$','yyyy-mm-dd')","train_phone",
-		"train_id","pro_name"
-		};
+private static String WHERE_SQL[] = {"train_id","user_id"};
+private static String UDPATE_SQL[] = {"train_date=to_date('$train_date$','yyyy-mm-dd')","train_phone"};
 
 public String getList(TrainapplyVO para,UserVO user) throws Exception{
 	String sql = " select id,train_name,train_depart,train_company,train_date,train_phone,train_id,pro_name "+
@@ -51,14 +49,22 @@ public String getVO(String id) throws Exception{
 	return json;
 }
 
-public void save(JSONObject jo) throws SQLException{
 
-	if(!StringUtil.isNullOrEmpty(jo.get("id")))
+
+public void insert(JSONObject jo) throws SQLException{
+
+
 		conn.insertDB(JSON.JsonToInsert(jo, "uf_train_apply",INSERT_SQL));
-	else
-		conn.updateDB(JSON.JsonToUpdate(jo, "uf_train_apply",WHERE_SQL,UDPATE_SQL));
 
 }
+
+public void update(JSONObject jo) throws SQLException{
+
+
+	conn.updateDB(JSON.JsonToUpdate(jo, "uf_train_apply",WHERE_SQL,UDPATE_SQL));
+
+}
+
 public void delete(String ids) throws SQLException{
 conn.updateDB("update uf_train_apply set status='1' where id in("+ids+")");
 }

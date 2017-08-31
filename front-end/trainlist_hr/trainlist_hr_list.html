@@ -37,26 +37,32 @@ $(function(){
 		
 			//action列，超连接操作按钮
 			if (column.name == "STATUS") {
-				e.cellStyle = "text-align:center";
+			
 				if(record.STATUS=="可报名")
-				{e.cellHtml = '<div >可报名</div>';}
+				{	e.cellStyle = "text-align:center;background-color:#B2F6EA;font-weight:bolder";
+					e.cellHtml = '<div >可报名</div>';}
 				
 				
 			}
 			if (column.name == "STATUS") {
-				e.cellStyle = "text-align:center";
+				
 				if(record.STATUS=="可评测")
-				{e.cellHtml = '<div >可评测</div>';}
+				{e.cellStyle = "text-align:center;background-color:#CBF6B2;font-weight:bolder";
+					e.cellHtml = '<div >可评测</div>';}
 			}
-			if (column.name == "GSSYB") {
-				e.cellStyle = "text-align:center";
-				e.cellHtml = '<img src="./bull/images/btn/compy.png" onclick="bt_fp(\'' + record.ID + '\',\'gs\')"/>';
+			if (column.name == "STATUS") {
+				
+				if(record.STATUS=="只显示不提供操作")
+				{e.cellStyle = "text-align:center;background-color:#F8B052;font-weight:bolder";
+					e.cellHtml = '<div >只显示不提供操作</div>';}
 			}
-			if (column.name == "BM") {
-				e.cellStyle = "text-align:center";
-				e.cellHtml = '<img src="./bull/images/btn/dz.png" onclick="bt_fp(\'' + record.ID + '\',\'bm\')"/>';
+			if (column.name == "STATUS") {
+				
+				if(record.STATUS=="不显示")
+				{e.cellStyle = "text-align:center;background-color:#CDCDCD;font-weight:bolder";
+					e.cellHtml = '<div >用户界面不显示</div>';}
 			}
-			else e.cellStyle = "text-align:center";
+			else e.cellStyle = "text-align:center;";
 		});
 	bt_search();	
 });
@@ -120,7 +126,7 @@ function bt_assess(){
 function bt_del(){
 	var rows = grid.getSelecteds();
 	if (rows.length > 0) {
-		mini.confirm("确定作废记录？", "确定？",
+		mini.confirm("确定删除此项目？", "确定？",
             function (action) {
                 if (action == "ok") {
                    var ids = [];
@@ -154,11 +160,13 @@ function keyup_sales(){
 </script>
 </head>
 <body style="padding:2px">
-<form name="submitForm" id="submitForm" method="post" action="BullInitServletListener">
+<div style="text-indent:15px;font-size:15px;font-weight:bolder;">培训项目后台管理系统</div>
+<form name="submitForm" id="submitForm" method="post" action="BullInitServletListener" >
 <!---右键菜单--->
 <ul id="contextMenu" class="mini-contextmenu" >
 		<li iconCls="icon-search" onclick="bt_search">查询</li>
 		<li iconCls="icon-add" onclick="bt_add">新增</li>
+		<li iconCls="icon-remove" onclick="bt_del">删除</li>
 
 	
 </ul>
@@ -174,7 +182,8 @@ function keyup_sales(){
 				
 					<td>
 					&nbsp;&nbsp;<a class="mini-button" iconCls="icon-search" onclick="bt_search()" id="but_search">查询</a>
-					&nbsp;&nbsp;<a class="mini-button" iconCls="icon-add" onclick="bt_add()">报名（新增）</a>
+					&nbsp;&nbsp;<a class="mini-button" iconCls="icon-add" onclick="bt_add()">新增培训项目</a>
+								&nbsp;&nbsp;<a class="mini-button" iconCls="icon-remove" onclick="bt_del()">删除项目</a>
 			
 				
 							</td>
@@ -185,7 +194,7 @@ function keyup_sales(){
 
 <div id="datagrid1" class="mini-datagrid" style="width:99%;height:450px;margin-right: auto; margin-left: auto;" allowResize="true" sizeList="[15,30,50,100]" pageSize="15"  allowAlternating="true"idField="id" multiSelect="true"  showSummaryRow="true">
 	<div property="columns">
-		 <div field="ID" name="ID"  type="checkcolumn" headerAlign="center" width="20" ></div>
+		 <div field="ID" name="ID"  type="checkcolumn" headerAlign="center" width="0"  ></div>
 		 <div field="PRO_NAME" headerAlign="center" width="50" name=PRO_NAME"" >参训项目名称</div>
 		 <div field="BEGIN_TIME" headerAlign="center"  width="50" name="BEGIN_TIME"  dateformat="yyyy-MM-dd">项目开始时间</div>
 		 <div field="END_TIME" headerAlign="center"  width="50" name="END_TIME"  dateformat="yyyy-MM-dd">项目结束时间</div>

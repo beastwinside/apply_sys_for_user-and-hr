@@ -27,30 +27,17 @@ public class TrainlistCtl{
 			UserVO user = ipf.getUser();
 			String pagetype = ipf.getParameterNull("pagetype");
 			if(pagetype.equals("list")) 
-				page = SysConstants.TEMP_PATH+"m_baseinfo/trainlist_hr/list.html";
+				page = SysConstants.TEMP_PATH+"m_baseinfo/trainlist_hr/trainlist_hr_list.html";
 			else if(pagetype.equals("add")) 
-				page = SysConstants.TEMP_PATH+"m_baseinfo/trainlist_hr/add.html";
+				page = SysConstants.TEMP_PATH+"m_baseinfo/trainlist_hr/trainlist_hr_add.html";
 			else if(pagetype.equals("edit")) {
-				page = SysConstants.TEMP_PATH+"m_baseinfo/trainlist_hr/edit.html";
+				page = SysConstants.TEMP_PATH+"m_baseinfo/trainlist_hr/trainlist_hr_edit.html";
 			
 				String id = ipf.getParameterNull("id");
 				ipf.addObject("formdata", db.getVO(id));
 	
 			}
-			else if(pagetype.equals("assess")) {
-				page = SysConstants.TEMP_PATH+"m_baseinfo/trainlist_user/edit_assess.html";
-				EmployeeDB empDB = new EmployeeDB();
-				TrainlistDB assessdb=new TrainlistDB();
-				String oahr = empDB.getOAHrInfo(user.getPersonid());
-				JSONObject oahrobj=JSONObject.fromObject(oahr);
-				String username = oahrobj.getString("LASTNAME");
-				
-				String id = ipf.getParameterNull("id");
-				String assessinfo=assessdb.getAssess(id,username);
-				ipf.addObject("formdata", db.getVO(id));
-				ipf.addObject("oahr", oahr);
-				ipf.addObject("assess", assessinfo);
-			}
+			
 			ipf.showPage(page);
 		} catch (Exception e) {
 			 	e.printStackTrace();
