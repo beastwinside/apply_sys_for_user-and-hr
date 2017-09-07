@@ -58,8 +58,8 @@ public class TrainassessCtl{
 						ipf.print("alert('您未报名此项目！');");
 						}
 					else 
-						db.save(jo);					
-						ipf.print("alert('评论成功！');bt_close()");
+						{db.save(jo);					
+						ipf.print("alert('评论成功！');bt_close()");}
 			} catch (Exception e) {
 				 	e.printStackTrace();
 			}

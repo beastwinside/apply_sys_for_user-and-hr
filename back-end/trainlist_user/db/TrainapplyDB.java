@@ -16,13 +16,13 @@ public class TrainapplyDB{
 
 	private static DBConnectionBaseEnc conn = new DBConnectionBaseEnc();
 	private static String INSERT_SQL[] = {"id=idkey","train_name","train_depart","train_company","train_date=to_date('$train_date$','yyyy-mm-dd')","train_phone",
-			"train_id","pro_name","user_id"
+			"train_id","pro_name","user_id","lecturer","isapply='ÒÑ±¨Ãû'","train_age","train_sex","train_job","entry_time=to_date('$entry_time$','yyyy-mm-dd')","remark","recent_test","arrive_time=to_date('$arrive_time$','yyyy-mm-dd')"
 		};
 private static String WHERE_SQL[] = {"train_id","user_id"};
-private static String UDPATE_SQL[] = {"train_date=to_date('$train_date$','yyyy-mm-dd')","train_phone"};
+private static String UDPATE_SQL[] = {"train_date=to_date('$train_date$','yyyy-mm-dd')","train_phone","train_age","train_sex","train_job","entry_time=to_date('$entry_time$','yyyy-mm-dd')","remark","recent_test","arrive_time=to_date('$arrive_time$','yyyy-mm-dd')"};
 
 public String getList(TrainapplyVO para,UserVO user) throws Exception{
-	String sql = " select id,train_name,train_depart,train_company,train_date,train_phone,train_id,pro_name "+
+	String sql = " select id,train_name,train_depart,train_company,train_date,train_phone,train_id,pro_name,lecturer,train_age,train_sex,train_job,entry_time,remark,recent_test,arrive_time "+
 				 " from uf_train_apply where 1=1 ";
 	String [][] vals = {
 			{para.getTrainname(),"train_name like'%#%'"},
@@ -35,7 +35,7 @@ public String getList(TrainapplyVO para,UserVO user) throws Exception{
 }
 
 public String getTrainapply(String key) throws SQLException{
-	String sql =" select id,train_name,train_depart,train_company,train_date,train_phone,train_id,pro_name "+
+	String sql =" select id,train_name,train_depart,train_company,train_date,train_phone,train_id,pro_name,lecturers,isapply ,train_age,train_sex,train_job,recent_test,arrive_time"+
 			 " from uf_train_apply ";
 	String json = conn.getArrayByJSON(sql);
 	return json;
@@ -43,7 +43,7 @@ public String getTrainapply(String key) throws SQLException{
 
 
 public String getVO(String id) throws Exception{
-	String sql =" select id,train_name,train_depart,train_company,train_date,train_phone,train_id,pro_name "+
+	String sql =" select id,train_name,train_depart,train_company,train_date,train_phone,train_id,pro_name,lecturer,arrive_time,train_job "+
 			 " from uf_train_apply where id="+id+"";
 	String json = conn.getVOByJSON(sql);
 	return json;

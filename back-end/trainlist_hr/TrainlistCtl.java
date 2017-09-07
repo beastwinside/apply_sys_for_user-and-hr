@@ -35,7 +35,16 @@ public class TrainlistCtl{
 			
 				String id = ipf.getParameterNull("id");
 				ipf.addObject("formdata", db.getVO(id));
-	
+			}
+			else if(pagetype.equals("count")) {
+				page = SysConstants.TEMP_PATH+"m_baseinfo/trainlist_hr/trainlist_hr_count.html";
+				EmployeeDB empDB = new EmployeeDB();
+				TrainlistDB countdb=new TrainlistDB();
+				String id = ipf.getParameterNull("id");
+				String countinfo=countdb.getCount(id);
+		
+				ipf.addObject("formdata", db.getVO(id));
+				ipf.addObject("count",countinfo);
 			}
 			
 			ipf.showPage(page);
@@ -71,7 +80,7 @@ public class TrainlistCtl{
 	
 				if(StringUtil.isNullOrEmpty(jo.getString("id"))){
 					if(VidCol.getVid("uf_train_list", "pro_name",jo.getString("pro_name"))){
-						ipf.print("alert('改项目已存在');");
+						ipf.print("alert('该项目已存在');");
 						return ;
 					}
 				}

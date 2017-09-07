@@ -12,10 +12,10 @@ import JavaSource.ipf.util.StringUtil;
 
 public class TrainassessDB{
 	private static DBConnectionBaseEnc conn = new DBConnectionBaseEnc();
-	private static String INSERT_SQL[] = {"id=idkey","pro_name","train_adj","train_adv"
+	private static String INSERT_SQL[] = {"id=idkey","pro_name","train_adj","train_adv","A_1","A_2","B_1","B_2","B_3","B_4","B_5","B_6","B_7","B_8","B_9","B_10","C_1","C_2","D_1","ifassess='ÒÑÆÀ¹À'"
 		};
 private static String WHERE_SQL[] = {"train_id","user_id"};
-private static String UDPATE_SQL[] = {"pro_name","train_adj","train_adv"
+private static String UDPATE_SQL[] = {"pro_name","train_adj","train_adv","A_1","A_2","B_1","B_2","B_3","B_4","B_5","B_6","B_7","B_8","B_9","B_10","C_1","C_2","D_1","ifassess='ÒÑÆÀ¹À'"
 		};
 
 public String getList(TrainassessVO para,UserVO user) throws Exception{

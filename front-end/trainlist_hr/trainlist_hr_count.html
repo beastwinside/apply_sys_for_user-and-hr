@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>供应商信息</title>
+<script src="./bull/script/boot.js" type="text/javascript"></script>
+<script src="./bull/script/miniui/pagertree.js" type="text/javascript"></script>
+<script src="./bull/script/json2.js"></script> 
+<script src="./bull/script/toolkit.js"></script> 
+<style type="text/css">
+    .asLabel .mini-textbox-border,
+    .asLabel .mini-textbox-input,
+    .asLabel .mini-buttonedit-border,
+    .asLabel .mini-buttonedit-input,
+    .asLabel .mini-textboxlist-border
+    {
+        border:0;background:none;cursor:default;
+    }
+    .asLabel .mini-buttonedit-button,
+    .asLabel .mini-textboxlist-close
+    {
+        display:none;
+    }
+    .asLabel .mini-textboxlist-item
+    {
+        padding-right:8px;
+    }    
+    
+    table td{
+    border:1px solid #7EC6C8
+    }
+      table tr{
+    border:1px solid #7EC6C8
+    }
+</style>
+<SCRIPT LANGUAGE="JavaScript">
+var grid = null;
+var form = null;
+var messageid = null;
+var p_url = "BullInitServletListener?classname=m_baseinfo.trainlist_hr.TrainlistCtl&method=";
+$(function(){
+	mini.parse();
+	form = new mini.Form("#submitForm");
+	var formdata = JsonToL(($formdata$));
+	var count = JsonToL(($count$));
+	//alert(JSON.stringify(formdata));
+	form.setData(formdata, false);
+	mini.get("a1").setValue(count.a1avg);
+	mini.get("a2").setValue(count.a2avg);
+	mini.get("a_avg").setValue((count.a1avg+count.a2avg)/2);
+	mini.get("b1").setValue(count.b1avg);
+	mini.get("b2").setValue(count.b2avg);
+	mini.get("b3").setValue(count.b3avg);
+	mini.get("b4").setValue(count.b4avg);
+	mini.get("b5").setValue(count.b5avg);
+	mini.get("b6").setValue(count.b6avg);
+	mini.get("b7").setValue(count.b7avg);
+	mini.get("b8").setValue(count.b8avg);
+	mini.get("b9").setValue(count.b9avg);
+	mini.get("b10").setValue(count.b10avg);
+	mini.get("b_avg").setValue((count.b1avg+count.b2avg+count.b3avg+count.b4avg+count.b5avg+count.b6avg+
+			count.b7avg+count.b8avg+count.b9avg+count.b10avg)/10);
+	mini.get("c1").setValue(count.c1avg);
+	mini.get("c2").setValue(count.c2avg);
+	mini.get("c_avg").setValue((count.c1avg+count.c2avg)/2);
+	mini.get("d1").setValue(count.d1avg);
+	mini.get("d_avg").setValue(count.d1avg);
+	mini.get("totalnum").setValue(count.totalnum+"份");
+	mini.get("vaildnum").setValue(count.vaildnum+"份");
+
+
+	//绑定右键菜单
+	 $("body").bind("contextmenu", function (e) {
+		var menu = mini.get("contextMenu");
+		menu.showAtPos(e.pageX, e.pageY);
+		return false;		
+	});
+	
+		var jsonData = [{ 'id': '可报名', 'text': '可报名' },
+	                     { 'id': '可评测', 'text': '可评测' },
+	                     {'id':'只显示不提供操作','text':'只显示不提供操作'},
+	                     {'id':'不显示','text':'不在用户端显示'}
+	                     ];
+	     mini.get("status").load(jsonData);
+		
+});
+function bt_save(){
+	if(!form.validate()) return ;
+	var data = form.getData(true); 
+	var json = mini.encode(data);
+	//data = JsonArrayToL(data);//转为小字
+	//alert(JSON.stringify(json));
+	messageid = mini.loading("加载中,请稍等 ...", "加载中");
+	$.ajax({
+		url: p_url+"save",type: "post",
+		data:{data:"["+json+"]"},
+			success: function (text) {
+				eval(text);
+				mini.hideMessageBox(messageid);
+			}
+	});
+}
+function bt_close(action) {            
+	if (action == "close" && form.isChanged()) {
+		if (confirm("数据被修改了，是否先保存？")) {
+			return false;
+		}
+	}
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();            
+}
+ function onCloseClick(e) {
+	var obj = e.sender;
+	obj.setText("");
+	obj.setValue("");
+}
+function keyup_sales(){
+	var obj = mini.get("sales");
+	var url = "BullInitServletListener?classname=m_hr.employee.EmployeeCtl&method=search&jobname="+obj.getText();
+	url = encodeURI(encodeURI(url));
+	obj.load(url);
+}
+</script>
+</head>
+<body style="padding:2px">
+<form name="submitForm" id="submitForm" method="post" action="BullInitServletListener">
+<input name="id" id="id" class="mini-hidden" value="">
+<!---右键菜单--->
+<ul id="contextMenu" class="mini-contextmenu" >
+		
+</ul>
+ <fieldset style="border:solid 1px #aaa;padding:3px;">
+            <legend >培训效果评估表评估统计结果</legend>
+		<div style="margin-left:auto;margin-right:auto; ">
+	   <table style="margin-left:auto;margin-right:auto;width:600px;">
+	    		<tr> <td>评估维度</td> <td>评估细项</td><td colspan="2">平均分</td></tr>
+		<tr> <td rowspan="2">课程与工作的相关性</td> <td>1达到本人期望目标</td>
+		<td><input id="a1" name="a1"  vtype="maxLength:32" style="width:220px;" required="true" class="mini-textbox asLabel" /></td>
+		<td rowspan="2"><input id="a_avg" name="a_avg"  vtype="maxLength:32" style="width:220px;" required="true" class="mini-textbox asLabel" /></td></tr>
+		<tr><td>对实际工作的指导意义</td><td><input id="a2" name="a2"  vtype="maxLength:32" style="width:220px;" required="true" class="mini-textbox asLabel" /></td></tr>
+		<tr><td rowspan="10">讲师授课</td><td>1课件的准备</td>
+		<td><input id="b1" name="b1"  vtype="maxLength:32" style="width:220px;" required="true" class="mini-textbox asLabel" /></td>
+		<td rowspan="10"><input id="b_avg" name="b_avg"  vtype="maxLength:32" style="width:220px;" required="true" class="mini-textbox asLabel" /></td></tr>
+		<tr><td>2授课的时间整体安排</td>
+		<td><input id="b2" name="b2"  vtype="maxLength:32" style="width:220px;" required="true" class="mini-textbox asLabel" /></td></tr>
+		<tr><td>3讲师的控场能力</td>
+		<td><input id="b3" name="b3"  vtype="maxLength:32" style="width:220px;" required="true" class="mini-textbox asLabel" /></td></tr>
+		<tr><td>4培训的互动与启发性</td>
+		<td><input id="b4" name="b4"  vtype="maxLength:32" style="width:220px;" required="true" class="mini-textbox asLabel" /></td></tr>
+		<tr><td>5案例是否生动，有深度</td>
+		<td><input id="b5" name="b5"  vtype="maxLength:32" style="width:220px;" required="true" class="mini-textbox asLabel" /></td></tr>
+		<tr><td>6授课技巧的使用</td>
+		<td><input id="b6" name="b6"  vtype="maxLength:32" style="width:220px;" required="true" class="mini-textbox asLabel" /></td></tr>
+		<tr><td>7对专业知识的掌握程度</td>
+		<td><input id="b7" name="b7"  vtype="maxLength:32" style="width:220px;" required="true" class="mini-textbox asLabel" /></td></tr>
+		<tr><td>8讲师的沟通表达能力</td>
+		<td><input id="b8" name="b8"  vtype="maxLength:32" style="width:220px;" required="true" class="mini-textbox asLabel" /></td></tr>
+		<tr><td>9条理清晰,主题突出</td
+		><td><input id="b9" name="b9"  vtype="maxLength:32" style="width:220px;" required="true" class="mini-textbox asLabel" /></td></tr>
+		<tr><td>10讲师的授课风格评估</td>
+		<td><input id="b10" name="b10"  vtype="maxLength:32" style="width:220px;" required="true" class="mini-textbox asLabel" /></td></tr>
+		<tr><td rowspan="2">培训支持</td><td>组织：培训的通知，接待，流程等</td>
+		<td><input id="c1" name="c1"  vtype="maxLength:32" style="width:220px;" required="true" class="mini-textbox asLabel" /></td>
+		<td rowspan="2"><input id="c_avg" name="c_avg"  vtype="maxLength:32" style="width:220px;" required="true" class="mini-textbox asLabel" /></td></tr>
+		<tr><td>硬件：培训场地和培训设施</td>
+		<td><input id="c2" name="c2"  vtype="maxLength:32" style="width:220px;" required="true" class="mini-textbox asLabel" /></td></tr>
+		<tr><td>总体评估</td><td>对整个培训的总体评估</td>
+		<td><input id="d1" name="d1"  vtype="maxLength:32" style="width:220px;" required="true" class="mini-textbox asLabel" /></td>
+		<td><input id="d_avg" name="d_avg"  vtype="maxLength:32" style="width:220px;" required="true" class="mini-textbox asLabel" /></td></tr>
+		<tr><td colspan="4">汇总统计</td></tr>	
+		<tr><td>评估主题</td>
+		<td><input id="pro_name" name="pro_name"  vtype="maxLength:32" style="width:220px;" required="true" class="mini-textbox asLabel" /></td><td>讲师</td>
+		<td><input id="lecturer" name="lecturer"  vtype="maxLength:32" style="width:220px;" required="true" class="mini-textbox asLabel" /></td></tr>
+		<tr><td>全部问卷</td>
+		<td><input id="totalnum" name="totalnum"  vtype="maxLength:32" style="width:220px;" required="true" class="mini-textbox asLabel" /></td>
+		<td>有效问卷</td>
+		<td><input id="vaildnum" name="vaildnum"  vtype="maxLength:32" style="width:220px;" required="true" class="mini-textbox asLabel" /></td></tr>
+		
+		
+				
+	    	</table>
+<div style="text-align:center;padding:10px;">               
+
+</div>    
+	</div>
+</fieldset>
+</form>
+</body>
+</html>
+
+
+

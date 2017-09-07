@@ -42,11 +42,37 @@ $(function(){
 	mini.get("train_adv").setValue(assess.train_adv);
 	mini.get("train_adj").setValue(assess.train_adj);
 	mini.get("train_id").setValue(formdata.id);
-	mini.get("sales").setValue(formdata.salesid);
-	mini.get("sales").setText(formdata.sales);
+	
 
+	var jsonData = [{ 'id': '10', 'text': '优秀10' },
+                    { 'id': '9', 'text': '优秀9' },
+                    { 'id': '8', 'text': '良好8' },
+                    { 'id': '7', 'text': '良好7' },
+                    { 'id': '6', 'text': '一般6' },
+                    { 'id': '5', 'text': '一般5' },
+                    { 'id': '4', 'text': '较差4' },
+                    { 'id': '3', 'text': '较差3' },
+                    ];
+	
+	       //添加按钮//
+			 mini.get(A_1).load(jsonData);mini.get("A_1").setValue(assess.a_1);
+			 mini.get(A_2).load(jsonData);mini.get("A_2").setValue(assess.a_2);  
+			 mini.get(B_1).load(jsonData);mini.get("B_1").setValue(assess.b_1);
+			 mini.get(B_2).load(jsonData);mini.get("B_2").setValue(assess.b_2);
+			 mini.get(B_3).load(jsonData);mini.get("B_3").setValue(assess.b_3);
+			 mini.get(B_4).load(jsonData);mini.get("B_4").setValue(assess.b_4);
+			 mini.get(B_5).load(jsonData);mini.get("B_5").setValue(assess.b_5);
+			 mini.get(B_6).load(jsonData);mini.get("B_6").setValue(assess.b_6);
+			 mini.get(B_7).load(jsonData);mini.get("B_7").setValue(assess.b_7);
+			 mini.get(B_8).load(jsonData);mini.get("B_8").setValue(assess.b_8);
+			 mini.get(B_9).load(jsonData);mini.get("B_9").setValue(assess.b_9);
+			mini.get(B_10).load(jsonData);mini.get("B_10").setValue(assess.b_10)
+			 mini.get(C_1).load(jsonData);mini.get("C_1").setValue(assess.c_1);
+			 mini.get(C_2).load(jsonData);mini.get("C_2").setValue(assess.c_2);
+			 mini.get(D_1).load(jsonData);mini.get("D_1").setValue(assess.d_1);
 
-
+	
+	
 	
 	//绑定右键菜单
 	 $("body").bind("contextmenu", function (e) {
@@ -54,6 +80,8 @@ $(function(){
 		menu.showAtPos(e.pageX, e.pageY);
 		return false;
 	});
+	
+
 });
 function bt_save(){
 	if(!form.validate()) return ;
@@ -107,20 +135,117 @@ function keyup_sales(){
 		<div style="margin-right: auto; margin-left: auto;">
 	    	 	<table style="margin-right: auto; margin-left: auto;">
 	    	
-	    	 	<input id="train_id" name="train_id" vtype="maxLength:16"  style="width:220px"  class="mini-hidden"   />
+	    	 	<input id="train_id" name="train_id" vtype="maxLength:32"  style="width:220px"  class="mini-hidden"   />
 	    		<tr>
 	    			
 					<td>项目名称：</td>
-					<td><input class="mini-textbox "  readonly id="pro_name" name="pro_name" vtype="maxLength:64" style="width:220px" value="" readonly/>
+					<td><input class="mini-textbox aslabel" required="true"  readonly id="pro_name" name="pro_name" vtype="maxLength:64" style="width:220px" value="" />
+				</td>
 				</tr>
 				<tr>
 					<td>项目评估文本：</td>
-					<td><input id="train_adj" name="train_adj" vtype="maxLength:32" style="width:220px;" required="true" class="mini-textbox aslabel" />
+					<td><input id="train_adj" name="train_adj"  vtype="maxLength:32" style="width:220px;" required="true" class="mini-textbox aslabel" />
 					</td>
 					<td>项目建议文本：</td>
 					<td>
-					<input id="train_adv" name="train_adv" vtype="maxLength:16" style="width:220px;" required="true" class="mini-textbox" />
+					<input id="train_adv" name="train_adv" vtype="maxLength:32" style="width:220px;" required="true" class="mini-textbox" />
 					</td>
+			</tr>
+			
+			
+				<tr>
+					<td>课程与工作的相关性_达到本人期望目标：</td>
+					<td>
+					<div id="A_1" name="A_1" class="mini-radiobuttonlist" repeatItems="2" repeatLayout="table" repeatDirection="vertical"
+   					 textField="text" valueField="id" value="cn" required ></div>  
+					</td>
+					
+					<td>课程与工作的相关性_对实际工作的指导意义：</td>
+					<td>
+						<div id="A_2" name="A_2" class="mini-radiobuttonlist" repeatItems="2" repeatLayout="table" repeatDirection="vertical"
+   					 textField="text" valueField="id" value="cn" required></div>
+					</td>
+			</tr>
+			
+				<tr>
+					<td>讲师授课_课件的准备：</td>
+					<td>	<div id="B_1" name="B_1" class="mini-radiobuttonlist" repeatItems="2" repeatLayout="table" repeatDirection="vertical"
+   					 textField="text" valueField="id" value="cn" required></div>
+					</td>
+					<td>讲师授课_授课的时间整体安排：</td>
+					<td>
+						<div id="B_2" name="B_2" class="mini-radiobuttonlist" repeatItems="2" repeatLayout="table" repeatDirection="vertical"
+   					 textField="text" valueField="id" value="cn" required></div>
+					</td>
+			</tr>
+			
+				<tr>
+					<td>讲师授课_讲师的控场能力：</td>
+					<td>	<div id="B_3" name="B_3" class="mini-radiobuttonlist" repeatItems="2" repeatLayout="table" repeatDirection="vertical"
+   					 textField="text" valueField="id" value="cn" required></div>
+					</td>
+					<td>讲师授课_培训的互动与启发性：</td>
+					<td>
+						<div id="B_4" name="B_4" class="mini-radiobuttonlist" repeatItems="2" repeatLayout="table" repeatDirection="vertical"
+   					 textField="text" valueField="id" value="cn" required></div>
+					</td>
+			</tr>
+			
+				<tr>
+					<td>讲师授课_案例是否生动,有深度：</td>
+					<td>	<div id="B_5" name="B_5" class="mini-radiobuttonlist" repeatItems="2" repeatLayout="table" repeatDirection="vertical"
+   					 textField="text" valueField="id" value="cn" required></div>
+					</td>
+					<td>讲师授课_授课技巧的使用：</td>
+					<td>
+						<div id="B_6" name="B_6" class="mini-radiobuttonlist" repeatItems="2" repeatLayout="table" repeatDirection="vertical"
+   					 textField="text" valueField="id" value="cn" required></div>
+					</td>
+			</tr>
+			
+				<tr>
+					<td>讲师授课_对专业知识的掌握程度：</td>
+					<td>	<div id="B_7" name="B_7" class="mini-radiobuttonlist" repeatItems="2" repeatLayout="table" repeatDirection="vertical"
+   					 textField="text" valueField="id" value="cn" required></div>
+					</td>
+					<td>讲师授课_讲师的沟通表达能力：</td>
+					<td>
+						<div id="B_8" name="B_8" class="mini-radiobuttonlist" repeatItems="2" repeatLayout="table" repeatDirection="vertical"
+   					 textField="text" valueField="id" value="cn" required></div>
+					</td>
+			</tr>
+			
+				<tr>
+					<td>讲师授课_条理清晰、主题突出：</td>
+					<td>	<div id="B_9" name="B_9" class="mini-radiobuttonlist" repeatItems="2" repeatLayout="table" repeatDirection="vertical"
+   					 textField="text" valueField="id" value="cn" required></div>
+					</td>
+					<td>讲师授课_讲师的授课风格评估：</td>
+					<td>
+						<div id="B_10" name="B_10" class="mini-radiobuttonlist" repeatItems="2" repeatLayout="table" repeatDirection="vertical"
+   					 textField="text" valueField="id" value="cn" required></div>
+					</td>
+			</tr>
+			
+				<tr>
+					<td>培训支持_组织：培训的通知,接待，流程等：</td>
+					<td>	<div id="C_1" name="C_1" class="mini-radiobuttonlist" repeatItems="2" repeatLayout="table" repeatDirection="vertical"
+   					 textField="text" valueField="id" value="cn" required></div>
+					</td>
+					
+						<td>培训支持_组织：硬件：培训场地和培训设施：</td>
+					<td>	<div id="C_2" name="C_2" class="mini-radiobuttonlist" repeatItems="2" repeatLayout="table" repeatDirection="vertical"
+   					 textField="text" valueField="id" value="cn" required></div>
+					</td>
+			</tr>
+			
+			
+			<tr>
+					<td>总体评估：对整个培训的总体评估</td>
+					<td>	<div id="D_1" name="D_1" class="mini-radiobuttonlist" repeatItems="2" repeatLayout="table" repeatDirection="vertical"
+   					 textField="text" valueField="id" value="cn" required></div>
+					</td>
+				
 			</tr>
 				
 	    	</table>

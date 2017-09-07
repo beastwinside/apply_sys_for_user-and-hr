@@ -11,7 +11,49 @@ public class TrainapplyVO extends QueryParameter{
 	private String  trainphone;
 	private String  trainid;
 	private String proname;
+	private String trainage;
+	private String trainsex;
+	private String entrytime;
+	private String recenttest;
+	private String remark;
+	private String trainjob;
 	
+	public String getTrainage() {
+		return trainage;
+	}
+	public void setTrainage(String trainage) {
+		this.trainage = trainage;
+	}
+	public String getTrainsex() {
+		return trainsex;
+	}
+	public void setTrainsex(String trainsex) {
+		this.trainsex = trainsex;
+	}
+	public String getEntrytime() {
+		return entrytime;
+	}
+	public void setEntrytime(String entrytime) {
+		this.entrytime = entrytime;
+	}
+	public String getRecenttest() {
+		return recenttest;
+	}
+	public void setRecenttest(String recenttest) {
+		this.recenttest = recenttest;
+	}
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+	public String getTrainjob() {
+		return trainjob;
+	}
+	public void setTrainjob(String trainjob) {
+		this.trainjob = trainjob;
+	}
 	public String getProname() {
 		return proname;
 	}

@@ -42,7 +42,6 @@ $(function(){
 				{	e.cellStyle = "text-align:center;background-color:#B2F6EA;font-weight:bolder";
 					e.cellHtml = '<div >可报名</div>';}
 				
-				
 			}
 			if (column.name == "STATUS") {
 				
@@ -60,9 +59,22 @@ $(function(){
 				
 				if(record.STATUS=="不显示")
 				{e.cellStyle = "text-align:center;background-color:#CDCDCD;font-weight:bolder";
-					e.cellHtml = '<div >用户界面不显示</div>';}
+				e.cellHtml = '<div >用户界面不显示</div>';}
 			}
+			
+			if (column.name == "DETAIL") {
+				e.cellStyle = "text-align:center";
+				if(record.DETAIL="详情表单")
+				{	e.cellHtml ='<img src="./bull/images/btn/detail.png" onclick=bt_count('+record.ID+') />';}
+				
+				
+			}
+			
+			
 			else e.cellStyle = "text-align:center;";
+			
+			
+			
 		});
 	bt_search();	
 });
@@ -76,6 +88,20 @@ function bt_search(){
 	grid.load(data);
 
 }
+
+function bt_count(e){
+
+	 mini.open({
+				url: p_url+"showPage&pagetype=count&id="+e,showMaxButton:true,
+				title: "详细反馈信息", width: "85%", height: "85%",
+				onload: function () {
+					var iframe = this.getIFrameEl();
+					var data = { action: "edit"};
+				},
+				ondestroy: function (action) {
+					grid.load(form.getData());
+				}
+			});}
 
 
 function bt_edit(e){
@@ -151,12 +177,7 @@ function bt_del(){
 		mini.alert('请选中一条记录!','提示');
 	}
 }
-function keyup_sales(){
-	var obj = mini.get("sales");
-	var url = "BullInitServletListener?classname=m_hr.employee.EmployeeCtl&method=search&jobname="+obj.getText();
-	url = encodeURI(encodeURI(url));
-	obj.load(url);
-}
+
 </script>
 </head>
 <body style="padding:2px">
@@ -195,13 +216,16 @@ function keyup_sales(){
 <div id="datagrid1" class="mini-datagrid" style="width:99%;height:450px;margin-right: auto; margin-left: auto;" allowResize="true" sizeList="[15,30,50,100]" pageSize="15"  allowAlternating="true"idField="id" multiSelect="true"  showSummaryRow="true">
 	<div property="columns">
 		 <div field="ID" name="ID"  type="checkcolumn" headerAlign="center" width="0"  ></div>
-		 <div field="PRO_NAME" headerAlign="center" width="50" name=PRO_NAME"" >参训项目名称</div>
+		 <div field="PRO_NAME" headerAlign="center" width="50" name="PRO_NAME" >参训项目名称</div>
 		 <div field="BEGIN_TIME" headerAlign="center"  width="50" name="BEGIN_TIME"  dateformat="yyyy-MM-dd">项目开始时间</div>
 		 <div field="END_TIME" headerAlign="center"  width="50" name="END_TIME"  dateformat="yyyy-MM-dd">项目结束时间</div>
 		 <div field="PEOPLE_NUM" headerAlign="center"  width="50" name="PEOPLE_NUM">参训项目最大人数</div>
 		 <div field="PRO_DETAIL" headerAlign="center"  width="70" name="PRO_DETAIL">项目具体内容和注意事项</div>
 		 <div field="PRO_ADDRESS" headerAlign="center"  width="50" name="PRO_ADDRESSS">参加培训的地址</div>
+		  <div field="LECTURER" headerAlign="center"  width="50" name="LECTURER">培训讲师</div>
+		    <div field="APPLY_DEADLINE" headerAlign="center"  width="50" name="APPLY_DEADLINE" dateformat="yyyy-MM-dd">培训报名截止日期</div>
 		 <div field="STATUS" headerAlign="center"  width="40" name="STATUS">培训项目状态</div>
+		  	  <div field="DETAIL" headerAlign="center"  width="40" name="DETAIL">培训反馈表单</div>
 	
 		 
 		 

@@ -10,6 +10,13 @@ public class TrainlistVO extends QueryParameter{
 	private String peoplenum;
 	private String prodetail;
 	private String proaddress;
+	private String lecturer;
+	public String getLecturer() {
+		return lecturer;
+	}
+	public void setLecturer(String lecturer) {
+		this.lecturer = lecturer;
+	}
 	public String getId() {
 		return id;
 	}

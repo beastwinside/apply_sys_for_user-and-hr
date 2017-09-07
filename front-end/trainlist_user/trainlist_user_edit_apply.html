@@ -31,6 +31,9 @@ var grid = null;
 var form = null;
 var messageid = null;
 var p_url = "BullInitServletListener?classname=m_baseinfo.trainlist_user.TrainapplyCtl&method=";
+var sexselect = [{ 'id': '男', 'text': '男' },
+                 { 'id': '女', 'text': '女' }
+                 ];
 $(function(){
 	mini.parse();
 	form = new mini.Form("#submitForm");
@@ -42,12 +45,26 @@ $(function(){
 	mini.get("train_id").setValue(formdata.id);
 	mini.get("train_date").setValue(apply.train_date);
 	mini.get("train_phone").setValue(apply.train_phone);
-	
+	mini.get("train_job").setValue(apply.train_job);
 	mini.get("train_name").setValue(oahr.lastname);
 	mini.get("train_depart").setValue(oahr.departmentname);
 	mini.get("train_company").setValue(oahr.subcompanyname);
 
 
+
+	mini.get("lecturer").setValue(formdata.lecturer);
+
+	if(apply.isapply)
+		{mini.get("isapply").setValue(apply.isapply);}
+	else {mini.get("isapply").setValue('未报名');}
+
+	mini.get("train_age").setValue(apply.train_age);
+	mini.get("train_sex").setValue(apply.train_sex);
+
+	mini.get("recent_test").setValue(apply.recent_test);
+	mini.get("entry_time").setValue(apply.entry_time);
+	mini.get("remark").setValue(apply.remark);
+	mini.get("arrive_time").setValue(apply.arrive_time);
 
 
 	mini.get("sales").setValue(formdata.salesid);
@@ -58,6 +75,9 @@ $(function(){
 		menu.showAtPos(e.pageX, e.pageY);
 		return false;
 	});
+	
+	
+	   
 });
 function bt_save(){
 	if(!form.validate()) return ;
@@ -113,7 +133,7 @@ function keyup_sales(){
 	    	<table style="margin-right: auto; margin-left: auto;">
 	    		<tr>
 	    			<td>参训人员姓名：</td>
-	    			<td><input class="mini-textbox asLabel" id="train_name" name="train_name" vtype="maxLength:32" required="true"style="width:220px"value=""/></td>
+	    			<td><input class="mini-textbox asLabel" id="train_name" name="train_name" vtype="maxLength:32" required="true"style="width:220px"value="" readonly /></td>
 					<td>参训人员所属部门：</td>
 					<td><input class="mini-textbox asLabel"  id="train_depart" readonly name="train_depart" vtype="maxLength:64" required="true"style="width:220px" value=""/>
 				</tr>
@@ -121,27 +141,86 @@ function keyup_sales(){
 					<td>参训人员所属公司：</td>
 					<td><input class="mini-textbox asLabel" id="train_company"name="train_company" readonly vtype="maxLength:32" style="width:220px"  />
 					</td>
-					<td>申请日期：</td>
-					<td>
-					<input id="train_date" name="train_date" vtype="maxLength:16" style="width:220px" class="mini-datepicker" required />
-					</td>
+					<td>培训讲师：</td>
+					<td><input class="mini-textbox asLabel"  id="lecturer" name="lecturer" readonly vtype="maxLength:32" required="true" style="width:220px" value=""/></td>
 			</tr>
 			<tr>
 					<td>联系方式电话：</td>
-					<td><input id="train_phone" name="train_phone"vtype="maxLength:16"  style="width:220px" class="mini-textbox" required />
+					<td><input id="train_phone" name="train_phone"vtype="maxLength:32"   style="width:220px" class="mini-textbox" required />
 					</td>
 					
 						<td>项目名称：</td>
-					<td><input id="pro_name" name="pro_name"vtype="maxLength:16"  style="width:220px" class="mini-textbox asLabel" />
+					<td><input id="pro_name" name="pro_name"vtype="maxLength:64" readonly  style="width:220px" class="mini-textbox asLabel" />
 					</td>
 					
 					
 					
 					
-				<input id="train_id" name="train_id" vtype="maxLength:16"  style="width:220px" class="mini-hidden"  />
+				<input id="train_id" name="train_id" vtype="maxLength:32"  style="width:220px" class="mini-hidden"  />
+				
+			</tr>
+			
+				<tr>
+					
+					<td>申请日期：</td>
+					<td>
+					<input id="train_date" name="train_date" vtype="maxLength:32" style="width:220px" class="mini-datepicker" required />
+					</td>
+				
+					<td>是否报名：</td>
+					<td><input class="mini-textbox asLabel"  id="isapply" name="isapply" readonly vtype="maxLength:32" required="true" style="width:220px" value=""/></td>
+					
+			
+				
+			</tr>
+			
+				<tr>
+					<td>参加者年龄：</td>
+					<td><input class="mini-textbox "  id="train_age" name="train_age" vtype="maxLength:32"  style="width:220px" value=""/></td>
+					
+				
+					<td>参加者性别：</td>
+					<td><input class="mini-combobox "  id="train_sex" name="train_sex" vtype="maxLength:32"  style="width:220px" data="sexselect"/></td>
+					
+			
+				
+			</tr>
+			
+				<tr>
+					<td>入职时间：</td>
+					<td><input   id="entry_time" name="entry_time" vtype="maxLength:32"  style="width:220px" value="" class="mini-datepicker"/></td>
+					
+				
+					<td>最近考核情况：</td>
+					<td><input class="mini-textbox "  id="recent_test" name="recent_test" vtype="maxLength:32"  style="width:220px" value="" /></td>
+					
+			
+				
+			</tr>
+			
+				<tr>
+					<td>抵达时间：</td>
+					<td><input   id="arrive_time" name="arrive_time" vtype="maxLength:32"  style="width:220px" value="" class="mini-datepicker"/></td>
+					
+				
+					<td>备注：</td>
+					<td><input class="mini-textbox "  id="remark" name="remark" vtype="maxLength:32"  style="width:220px" /></td>
+					
+			
 				
 			</tr>
 				
+					</tr>
+			
+				<tr>
+					<td>岗位（职务）：</td>
+					<td>
+					<input class="mini-textbox  "   id="train_job" name="train_job" vtype="maxLength:32"  style="width:220px" /></td>
+					
+				
+			
+				
+			</tr>
 			
 	    	</table>
 <div style="text-align:center;padding:10px;">               

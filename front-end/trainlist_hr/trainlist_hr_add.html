@@ -11,9 +11,9 @@
 var grid = null;
 var form = null;
 var messageid = null;
-var p_url = "BullInitServletListener?classname=m_baseinfo.trainlist_user.TrainlistCtl&method=";
+var p_url = "BullInitServletListener?classname=m_baseinfo.trainlist_hr.TrainlistCtl&method=";
 $(function(){
-	mini.parse();
+	mini.parse(); 
 	form = new mini.Form("#submitForm");
 	//grid.hideColumn("ID");
 	//绑定右键菜单
@@ -79,7 +79,7 @@ function bt_close(action) {
 	    	<table style="margin-right: auto; margin-left: auto;">
 	    		<tr>
 	    			<td>项目名称：</td>
-	    			<td><input class="mini-textbox" id="pro_name" name="pro_name" vtype="maxLength:32" required="true"style="width:220px"value=""/></td>
+	    			<td><input class="mini-textbox" id="pro_name" name="pro_name" vtype="maxLength:64" required="true"style="width:220px"value=""/></td>
 					<td>开始时间：</td>
 					<td><input class="mini-datepicker" id="begin_time" name="begin_time" vtype="maxLength:64" required="true"style="width:220px" value=""  />
 				</tr>
@@ -89,26 +89,41 @@ function bt_close(action) {
 					</td>
 					<td>参加最大人数：</td>
 					<td>
-					<input id="people_num" name="people_num" required vtype="maxLength:16" style="width:220px" class="mini-textbox" />
+					<input id="people_num" name="people_num" required vtype="maxLength:32" style="width:220px" class="mini-textbox" />
 					</td>
 			</tr>
 			<tr>
 					<td>项目细节：</td>
-					<td><input id="pro_detail" name="pro_detail" required vtype="maxLength:16"  style="width:220px" class="mini-textbox" />
+					<td><input id="pro_detail" name="pro_detail" required vtype="maxLength:32"  style="width:220px" class="mini-textbox" />
 						<td>项目地址：</td>
-						<td><input id="pro_address" name="pro_address"  required vtype="maxLength:16"  style="width:220px" class="mini-textbox" />
+						<td><input id="pro_address" name="pro_address"  required vtype="maxLength:32"  style="width:220px" class="mini-textbox" />
 					</td>
 				
 					
 			</tr>
 				
+				<tr>
+					<td>培训讲师：</td>
+					<td>
+					<input id="lecturer" name="lecturer"  vtype="maxLength:32"  required  class="mini-textbox" style="width:220px;" textfield="text"    />
+					</td>
+				
+				
 						<td>培训项目状态：</td>
 					<td>
 					
-					<input id="status" name="status"  vtype="maxLength:16"  required  class="mini-combobox" style="width:220px;" textfield="text"   shownullitem="true" />
+					<input id="status" name="status"  vtype="maxLength:32"  required  class="mini-combobox" style="width:220px;" textfield="text"   shownullitem="true" />
 					</td>
+			</tr>
 			
-			
+				<tr>
+					<td>培训报名截止时间：</td>
+					<td>
+					<input id="apply_deadline" name="apply_deadline"  vtype="maxLength:32"  required  class="mini-datepicker" style="width:220px;" textfield="text"    />
+					</td>
+				
+				
+			</tr>
 			
 			
 			
